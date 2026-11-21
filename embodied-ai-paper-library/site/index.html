@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="追踪自动驾驶、机器人与多无人车协同控制论文，查阅会刊与奖项、经典文献、数据集及仿真基准。">
+  <title>具身经纬 · Embodied Atlas</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./papers.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body id="top">
+  <a class="skip" href="#tracker">跳到最新论文</a>
+
+  <header class="hero" aria-labelledby="page-title">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="hero-scope" lang="en">EMBODIED ATLAS</p>
+        <h1 id="page-title">具身<span>经纬</span></h1>
+        <p class="hero-description">自动驾驶、机器人与多智能体协同控制研究导航</p>
+      </div>
+      <dl class="hero-stats" aria-label="最新论文收录情况">
+        <div class="stat-total"><dt>近期论文</dt><dd id="stat-all">—</dd></div>
+        <div><dt>自动驾驶</dt><dd id="stat-driving">—</dd></div>
+        <div><dt>机器人</dt><dd id="stat-robotics">—</dd></div>
+        <div><dt>协同控制</dt><dd id="stat-mas">—</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="栏目导航">
+    <div class="wrap nav-inner">
+      <a class="nav-home" href="#top" aria-label="返回页首"><span aria-hidden="true"></span> 具身经纬</a>
+      <div class="nav-links">
+        <a href="#overview">领域概览</a>
+        <a class="nav-dossier" href="#topics">专题深读</a>
+        <a href="#tracker">最新论文</a>
+        <a href="#classics">经典论文</a>
+        <a href="#benchmarks">评测数据</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="overview" class="page-section" aria-labelledby="overview-title">
+      <div class="section-heading">
+        <h2 id="overview-title">领域概览</h2>
+      </div>
+      <div class="overview-grid">
+        <article class="overview-card accent-vla">
+          <div class="method-meta"><span class="badge badge-method badge-vla">VLA</span><span lang="en">Vision–Language–Action</span></div>
+          <h3>视觉语言动作模型</h3>
+          <p>根据视觉观测与语言指令输出动作。机器人通常执行末端位姿或关节控制，自动驾驶则常输出自车轨迹。</p>
+          <a class="inline-link" href="#tracker" data-track-method="VLA">筛选 VLA 论文</a>
+        </article>
+        <article class="overview-card accent-wam">
+          <div class="method-meta"><span class="badge badge-method badge-wam">WAM</span><span lang="en">World Action Model</span></div>
+          <h3>世界动作模型</h3>
+          <p>联合建模未来观测与动作，使动作生成和结果预测共享信息。阅读时可关注两者是否在推理阶段共同生成。</p>
+          <a class="inline-link" href="#tracker" data-track-method="WAM">筛选 WAM 论文</a>
+        </article>
+        <article class="overview-card accent-wm">
+          <div class="method-meta"><span class="badge badge-method badge-wm">WM</span><span lang="en">World Model</span></div>
+          <h3>世界模型</h3>
+          <p>学习环境如何随时间与动作演化。未来状态可以表示为视频、三维占据或潜变量，并用于仿真、规划或策略学习。</p>
+          <a class="inline-link" href="#tracker" data-track-method="WM">筛选 WM 论文</a>
+        </article>
+        <article class="overview-card accent-mas">
+          <div class="method-meta"><span class="badge badge-method badge-mas">MAS</span><span lang="en">Multi-Agent Systems</span></div>
+          <h3>多车协同控制</h3>
+          <p>多台地面无人车利用局部观测或车间通信执行编队、跟驰和协同避碰。对照时关注队形误差、串稳定性与通信时延。</p>
+          <a class="inline-link" href="#tracker" data-track-method="MAS">筛选协同控制论文</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="topics" class="page-section" aria-labelledby="topics-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="topics-title">专题深读</h2>
+          <p>沿代表论文对照方法流程、实验设置与适用场景。</p>
+        </div>
+        <a class="inline-link" href="#reading-routes">查看专题阅读路线</a>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card accent-wam">
+          <div class="badges">
+            <span class="badge badge-method badge-vla">VLA</span>
+            <span class="badge badge-method badge-wam">WAM</span>
+            <span class="badge badge-method badge-wm">WM</span>
+          </div>
+          <h3>VLA 与世界动作模型深度解析</h3>
+          <p>从 RT-2 的离散动作、π₀ 的连续轨迹，到机器人视频—动作联合生成与 Epona 的驾驶规划。对比模型预测什么，以及预测如何进入控制。</p>
+          <a class="feature-link" href="./world-action.html">打开模型专题</a>
+        </article>
+        <article class="feature-card accent-mas">
+          <div class="badges">
+            <span class="badge badge-method badge-mas">多智能体</span>
+            <span class="badge badge-domain">地面车辆</span>
+          </div>
+          <h3>多无人车协同控制深度解析</h3>
+          <p>把一致性、车队跟驰、分布式 MPC 和协同避碰放到一张对照表里，梳理通信假设、稳定性、约束与验证方法。</p>
+          <a class="feature-link" href="./cooperative.html">打开编队专题</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="tracker" class="page-section" aria-labelledby="tracker-title" tabindex="-1">
+      <div class="section-heading tracker-heading">
+        <div>
+          <h2 id="tracker-title">最新论文追踪</h2>
+          <p>跟踪 <a href="https://arxiv.org/">arXiv</a> 预印本和 <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/">Crossref</a> 会刊记录。部署后每天北京时间 13:17 调度更新。</p>
+        </div>
+        <p id="sync-status" class="sync-status">正在读取论文…</p>
+      </div>
+
+      <div class="tracker">
+        <aside class="filters" aria-labelledby="filters-title">
+          <div class="filters-header">
+            <h3 id="filters-title">筛选论文</h3>
+            <button type="button" class="text-button" id="reset">重置</button>
+          </div>
+          <fieldset>
+            <legend>应用方向</legend>
+            <label class="radio-option"><input type="radio" name="domain" value="all" checked> 全部方向</label>
+            <label class="radio-option"><input type="radio" name="domain" value="driving"> 自动驾驶</label>
+            <label class="radio-option"><input type="radio" name="domain" value="robotics"> 机器人</label>
+          </fieldset>
+          <fieldset>
+            <legend>模型方法</legend>
+            <label class="radio-option"><input type="radio" name="method" value="all" checked> 全部方法</label>
+            <label class="radio-option"><input type="radio" name="method" value="VLA"> VLA</label>
+            <label class="radio-option"><input type="radio" name="method" value="WAM"> WAM</label>
+            <label class="radio-option"><input type="radio" name="method" value="WM"> WM</label>
+            <label class="radio-option"><input type="radio" name="method" value="MAS"> 协同控制</label>
+          </fieldset>
+          <fieldset class="publication-filters">
+            <legend>发表信息</legend>
+            <label class="radio-option"><input type="checkbox" id="featured-only"> 重点会刊</label>
+            <label class="radio-option"><input type="checkbox" id="awards-only"> 获奖论文</label>
+          </fieldset>
+          <p class="filter-note">方法按关键词匹配。奖项链接至官方获奖名单。</p>
+        </aside>
+
+        <div id="results" class="results" aria-labelledby="list-title">
+          <h3 class="visually-hidden" id="list-title" tabindex="-1">最新论文</h3>
+          <div class="results-actions">
+            <div class="view-switch" role="group" aria-label="论文视图">
+              <button type="button" id="show-feed" aria-pressed="true">全部论文</button>
+              <button type="button" id="show-saved" aria-pressed="false">收藏 <span id="saved-count">0</span></button>
+            </div>
+            <label class="sort-control">
+              <span class="visually-hidden">按论文日期排序</span>
+              <select id="sort">
+                <option value="desc">最新在前</option>
+                <option value="asc">最早在前</option>
+              </select>
+            </label>
+          </div>
+          <div class="search-control" role="search">
+            <span class="search-icon" aria-hidden="true"></span>
+            <label class="visually-hidden" for="search">搜索论文</label>
+            <input type="search" id="search" placeholder="搜索标题、作者、会刊、摘要或 DOI" autocomplete="off">
+          </div>
+          <p class="results-count" id="match-count" role="status">正在加载…</p>
+          <div id="paper-list" class="paper-list"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <h4 id="empty-title"></h4>
+            <p id="empty-body"></p>
+            <a id="empty-awards" href="#classic-awards" hidden>查看历年获奖论文</a>
+          </div>
+          <div class="more-row">
+            <button type="button" id="more" class="outline-button" hidden>加载更多论文</button>
+          </div>
+          <p id="save-status" class="visually-hidden" role="status"></p>
+          <noscript><p class="empty-state">查看和筛选最新论文需要启用 JavaScript。</p></noscript>
+        </div>
+      </div>
+    </section>
+
+    <section id="classics" class="page-section" aria-labelledby="classics-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="classics-title">经典与奠基论文</h2>
+          <p>从环境动力学与动作模型，到一致性、队形保持和车队串稳定性。会刊标签链接至正式发表页。</p>
+        </div>
+      </div>
+      <div class="anchor-links" aria-label="经典论文分类">
+        <a href="#model-classics">VLA、WAM 与世界模型</a>
+        <a href="#control-classics">多车与多智能体协同控制</a>
+        <a href="#classic-awards">历年获奖论文</a>
+      </div>
+      <div class="award-strip" id="classic-awards" aria-labelledby="classic-awards-title">
+        <h3 id="classic-awards-title">历年获奖选读</h3>
+        <div>
+          <a href="#classic-open-x">Open X-Embodiment</a>
+          <a href="#classic-platooning">通信时延下的车队一致性</a>
+          <a href="#classic-cacc-survey">协同自适应巡航综述</a>
+        </div>
+      </div>
+      <h3 class="group-heading" id="model-classics">VLA、WAM 与世界模型</h3>
+      <ol class="classics-grid">
+        <li class="classic" id="classic-world-models">
+          <div class="classic-meta"><time datetime="2018">2018</time><span class="badge badge-method badge-wm">WM</span><span class="badge badge-domain">方法基础</span></div>
+          <h3><a lang="en" href="https://arxiv.org/abs/1803.10122" target="_blank" rel="noopener noreferrer">World Models</a></h3>
+          <p>用生成模型压缩观测并学习环境动态，在模型生成的轨迹中训练策略，再将策略迁移回原环境。</p>
+        </li>
+        <li class="classic" id="classic-dreamer">
+          <div class="classic-meta"><time datetime="2020">2020</time><span class="badge badge-method badge-wm">WM</span><a class="badge venue-highlight" href="https://openreview.net/forum?id=S1lOTC4tDS" target="_blank" rel="noopener noreferrer">重点会议 · ICLR</a></div>
+          <h3><a lang="en" href="https://openreview.net/forum?id=S1lOTC4tDS" target="_blank" rel="noopener noreferrer">Dream to Control: Learning Behaviors by Latent Imagination</a></h3>
+          <p>Dreamer 在学习到的潜空间中展开轨迹，并利用这些预测轨迹优化图像输入下的控制策略。</p>
+        </li>
+        <li class="classic" id="classic-rt2">
+          <div class="classic-meta"><time datetime="2023">2023</time><span class="badge badge-method badge-vla">VLA</span><a class="badge venue-highlight" href="https://proceedings.mlr.press/v229/zitkovich23a.html" target="_blank" rel="noopener noreferrer">重点会议 · CoRL</a></div>
+          <h3><a lang="en" href="https://proceedings.mlr.press/v229/zitkovich23a.html" target="_blank" rel="noopener noreferrer">RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control</a></h3>
+          <p>把机器人动作编码为文本 token，将视觉语言任务与机器人示范联合训练，把语义知识迁移到操作任务。</p>
+        </li>
+        <li class="classic" id="classic-gaia">
+          <div class="classic-meta"><time datetime="2023">2023</time><span class="badge badge-method badge-wm">WM</span><span class="badge badge-domain">自动驾驶</span></div>
+          <h3><a lang="en" href="https://arxiv.org/abs/2309.17080" target="_blank" rel="noopener noreferrer">GAIA-1: A Generative World Model for Autonomous Driving</a></h3>
+          <p>以视频、文本和动作为条件，通过预测离散 token 生成可控的驾驶场景。</p>
+        </li>
+        <li class="classic" id="classic-open-x" data-award-id="2310.08864" data-award-doi="10.1109/icra57147.2024.10611477">
+          <div class="classic-meta"><time datetime="2024">2024</time><span class="badge badge-domain">机器人</span><a class="badge venue-highlight" href="https://doi.org/10.1109/ICRA57147.2024.10611477" target="_blank" rel="noopener noreferrer">重点会议 · ICRA</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/ICRA57147.2024.10611477" target="_blank" rel="noopener noreferrer">Open X-Embodiment: Robotic Learning Datasets and RT-X Models</a></h3>
+          <p>汇合多本体真实轨迹，以 RT-X 评估跨平台联合训练带来的迁移效果。</p>
+          <a class="badge award-chip" href="https://www.ieee-ras.org/awards-recognition/conference-awards/ieee-icra-best-conference-paper-award/" target="_blank" rel="noopener noreferrer">获奖 · ICRA 2024 最佳会议论文（共同获奖）</a>
+        </li>
+        <li class="classic" id="classic-drive-wm">
+          <div class="classic-meta"><time datetime="2024">2024</time><span class="badge badge-method badge-wm">WM</span><a class="badge venue-highlight" href="https://openaccess.thecvf.com/content/CVPR2024/html/Wang_Driving_into_the_Future_Multiview_Visual_Forecasting_and_Planning_with_CVPR_2024_paper.html" target="_blank" rel="noopener noreferrer">重点会议 · CVPR</a></div>
+          <h3><a lang="en" href="https://openaccess.thecvf.com/content/CVPR2024/html/Wang_Driving_into_the_Future_Multiview_Visual_Forecasting_and_Planning_with_CVPR_2024_paper.html" target="_blank" rel="noopener noreferrer">Driving into the Future: Multiview Visual Forecasting and Planning with World Model for Autonomous Driving</a></h3>
+          <p>预测候选驾驶动作对应的多视角未来视频，并用图像奖励比较轨迹。</p>
+        </li>
+        <li class="classic" id="classic-openvla">
+          <div class="classic-meta"><time datetime="2024">2024</time><span class="badge badge-method badge-vla">VLA</span><a class="badge venue-highlight" href="https://proceedings.mlr.press/v270/kim25c.html" target="_blank" rel="noopener noreferrer">重点会议 · CoRL</a></div>
+          <h3><a lang="en" href="https://proceedings.mlr.press/v270/kim25c.html" target="_blank" rel="noopener noreferrer">OpenVLA: An Open-Source Vision-Language-Action Model</a></h3>
+          <p>开源基于约 97 万条真实机器人示范训练的 VLA，并给出适配新任务的高效微调方案。</p>
+        </li>
+        <li class="classic" id="classic-pi0">
+          <div class="classic-meta"><time datetime="2025">2025</time><span class="badge badge-method badge-vla">VLA</span><a class="badge venue-highlight" href="https://www.roboticsproceedings.org/rss21/p010.html" target="_blank" rel="noopener noreferrer">重点会议 · RSS</a></div>
+          <h3><a lang="en" href="https://www.roboticsproceedings.org/rss21/p010.html" target="_blank" rel="noopener noreferrer">π₀: A Vision-Language-Action Flow Model for General Robot Control</a></h3>
+          <p>将流匹配动作模块接入预训练视觉语言模型，以多种机器人平台的数据学习连续动作策略。</p>
+        </li>
+        <li class="classic" id="classic-uwm">
+          <div class="classic-meta"><time datetime="2025">2025</time><span class="badge badge-method badge-wam">WAM</span><a class="badge venue-highlight" href="https://roboticsproceedings.org/rss21/p015.html" target="_blank" rel="noopener noreferrer">重点会议 · RSS</a></div>
+          <h3><a lang="en" href="https://roboticsproceedings.org/rss21/p015.html" target="_blank" rel="noopener noreferrer">Unified World Models: Coupling Video and Action Diffusion for Pretraining on Large Robotic Datasets</a></h3>
+          <p>在同一个 Transformer 内耦合视频和动作扩散，让缺少动作标注的视频也能参与预训练。</p>
+        </li>
+        <li class="classic" id="classic-autovla">
+          <div class="classic-meta"><time datetime="2025">2025</time><span class="badge badge-method badge-vla">VLA</span><a class="badge venue-highlight" href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/2843fccca5bedd369a4764848b9bd546-Abstract-Conference.html" target="_blank" rel="noopener noreferrer">重点会议 · NeurIPS</a></div>
+          <h3><a lang="en" href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/2843fccca5bedd369a4764848b9bd546-Abstract-Conference.html" target="_blank" rel="noopener noreferrer">AutoVLA: A Vision-Language-Action Model for End-to-End Autonomous Driving with Adaptive Reasoning and Reinforcement Fine-Tuning</a></h3>
+          <p>把轨迹离散为动作 token，与语义推理共享自回归模型，再通过强化微调调节推理开销。</p>
+        </li>
+        <li class="classic" id="classic-worldvla">
+          <div class="classic-meta"><time datetime="2025">2025</time><span class="badge badge-method badge-wam">WAM</span><span class="badge badge-method badge-vla">VLA</span><span class="badge badge-domain">机器人</span></div>
+          <h3><a lang="en" href="https://arxiv.org/abs/2506.21539" target="_blank" rel="noopener noreferrer">WorldVLA: Towards Autoregressive Action World Model</a></h3>
+          <p>在自回归框架中联合学习未来图像预测与动作生成，使两项任务共享信息。</p>
+        </li>
+        <li class="classic" id="classic-epona">
+          <div class="classic-meta"><time datetime="2025">2025</time><span class="badge badge-method badge-wm">WM</span><a class="badge venue-highlight" href="https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Epona_Autoregressive_Diffusion_World_Model_for_Autonomous_Driving_ICCV_2025_paper.html" target="_blank" rel="noopener noreferrer">重点会议 · ICCV</a></div>
+          <h3><a lang="en" href="https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Epona_Autoregressive_Diffusion_World_Model_for_Autonomous_Driving_ICCV_2025_paper.html" target="_blank" rel="noopener noreferrer">Epona: Autoregressive Diffusion World Model for Autonomous Driving</a></h3>
+          <p>让轨迹规划与下一帧扩散模块共享历史表征，同时支持自回归驾驶场景生成和规划。</p>
+        </li>
+      </ol>
+      <h3 class="group-heading" id="control-classics">多车与多智能体协同控制</h3>
+      <ol class="classics-grid">
+        <li class="classic" id="classic-string">
+          <div class="classic-meta"><time datetime="1996">1996</time><span class="badge badge-method badge-mas">串稳定性</span><a class="badge venue-highlight" href="https://doi.org/10.1109/9.486636" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE TAC</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/9.486636" target="_blank" rel="noopener noreferrer">String Stability of Interconnected Systems</a></h3>
+          <p>提出互联系统的串稳定性概念，用于分析扰动沿车队传播时能否保持有界。</p>
+        </li>
+        <li class="classic" id="classic-formation">
+          <div class="classic-meta"><time datetime="2004">2004</time><span class="badge badge-method badge-mas">编队控制</span><a class="badge venue-highlight" href="https://doi.org/10.1109/TAC.2004.834433" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE TAC</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/TAC.2004.834433" target="_blank" rel="noopener noreferrer">Information Flow and Cooperative Control of Vehicle Formations</a></h3>
+          <p>通过通信图拉普拉斯矩阵的特征值，把邻车信息拓扑与编队稳定性联系起来。</p>
+        </li>
+        <li class="classic" id="classic-consensus">
+          <div class="classic-meta"><time datetime="2007">2007</time><span class="badge badge-method badge-mas">多智能体一致性</span><a class="badge venue-highlight" href="https://doi.org/10.1109/JPROC.2006.887293" target="_blank" rel="noopener noreferrer">重点期刊 · Proceedings of the IEEE</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/JPROC.2006.887293" target="_blank" rel="noopener noreferrer">Consensus and Cooperation in Networked Multi-Agent Systems</a></h3>
+          <p>梳理网络化多智能体一致性的分析框架，讨论有向通信、拓扑变化和时延。</p>
+        </li>
+        <li class="classic" id="classic-platooning" data-award-doi="10.1109/tits.2014.2328439">
+          <div class="classic-meta"><time datetime="2015">2015</time><span class="badge badge-method badge-mas">车队跟驰</span><a class="badge venue-highlight" href="https://doi.org/10.1109/TITS.2014.2328439" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE T-ITS</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/TITS.2014.2328439" target="_blank" rel="noopener noreferrer">Distributed Consensus Strategy for Platooning of Vehicles in the Presence of Time-Varying Heterogeneous Communication Delays</a></h3>
+          <p>用本车测量和邻车信息构造分布式跟驰协议，分析异构时变通信时延下的稳定性。</p>
+          <a class="badge award-chip" href="https://ieee-itss.org/pub/t-its/t-its-paper-award-history/" target="_blank" rel="noopener noreferrer">获奖 · 2017 George N. Saridis 最佳期刊论文（Outstanding Research）</a>
+        </li>
+        <li class="classic" id="classic-cacc-survey" data-award-doi="10.1109/tits.2015.2483063">
+          <div class="classic-meta"><time datetime="2016">2016</time><span class="badge badge-method badge-mas">协同巡航</span><a class="badge venue-highlight" href="https://doi.org/10.1109/TITS.2015.2483063" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE T-ITS</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/TITS.2015.2483063" target="_blank" rel="noopener noreferrer">A Review of Communication, Driver Characteristics, and Controls Aspects of Cooperative Adaptive Cruise Control (CACC)</a></h3>
+          <p>综述协同自适应巡航中的通信条件、驾驶行为和控制设计，适合梳理实车验证变量。</p>
+          <a class="badge award-chip" href="https://ieee-itss.org/pub/t-its/t-its-paper-award-history/" target="_blank" rel="noopener noreferrer">获奖 · 2017 George N. Saridis 最佳期刊论文（Outstanding Survey）</a>
+        </li>
+        <li class="classic" id="classic-dmpc">
+          <div class="classic-meta"><time datetime="2017">2017</time><span class="badge badge-method badge-mas">分布式 MPC</span><a class="badge venue-highlight" href="https://doi.org/10.1109/TCST.2016.2594588" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE TCST</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/TCST.2016.2594588" target="_blank" rel="noopener noreferrer">Distributed Model Predictive Control for Heterogeneous Vehicle Platoons Under Unidirectional Topologies</a></h3>
+          <p>为单向通信下的异构车队设计分布式模型预测控制，并分析跟驰收敛性和稳定性。</p>
+        </li>
+        <li class="classic" id="classic-barrier">
+          <div class="classic-meta"><time datetime="2017">2017</time><span class="badge badge-method badge-mas">多车避碰</span><a class="badge venue-highlight" href="https://doi.org/10.1109/TRO.2017.2659727" target="_blank" rel="noopener noreferrer">重点期刊 · IEEE T-RO</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/TRO.2017.2659727" target="_blank" rel="noopener noreferrer">Safety Barrier Certificates for Collisions-Free Multirobot Systems</a></h3>
+          <p>以安全屏障约束修正名义控制输入，在模型假设下为多台移动机器人提供可证明的避碰保证。</p>
+        </li>
+        <li class="classic" id="classic-collision">
+          <div class="classic-meta"><time datetime="2018">2018</time><span class="badge badge-method badge-mas">多车避碰</span><a class="badge venue-highlight" href="https://doi.org/10.1109/ICRA.2018.8461113" target="_blank" rel="noopener noreferrer">重点会议 · ICRA</a></div>
+          <h3><a lang="en" href="https://doi.org/10.1109/ICRA.2018.8461113" target="_blank" rel="noopener noreferrer">Towards Optimally Decentralized Multi-Robot Collision Avoidance via Deep Reinforcement Learning</a></h3>
+          <p>借助局部传感学习去中心化避碰策略，并在多台真实地面机器人上验证。</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="reading-routes" class="page-section" aria-labelledby="reading-routes-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="reading-routes-title">专题阅读路线</h2>
+          <p>沿同一个研究问题串读论文，便于比较输入、输出和评测协议。</p>
+        </div>
+      </div>
+      <div class="topic-grid">
+        <article class="topic-card">
+          <h3>自动驾驶 · 从预测场景到规划轨迹</h3>
+          <ol class="reading-path">
+            <li><a href="#classic-gaia">GAIA-1</a><span>先看动作和文本如何控制生成的驾驶场景。</span></li>
+            <li><a href="#classic-drive-wm">Drive-WM</a><span>再看多视角未来视频如何用于比较候选轨迹。</span></li>
+            <li><a href="#classic-epona">Epona</a> / <a href="#classic-autovla">AutoVLA</a><span>对照联合预测与直接生成轨迹的两种做法，记录各自的评测环境。</span></li>
+          </ol>
+          <a class="inline-link" href="#tracker" data-track-domain="driving">查看自动驾驶最新论文</a>
+        </article>
+        <article class="topic-card">
+          <h3>机器人 · 从语言指令到动作执行</h3>
+          <ol class="reading-path">
+            <li><a href="#classic-rt2">RT-2</a><span>先了解机器人动作如何被编码进视觉语言模型。</span></li>
+            <li><a href="#classic-pi0">π₀</a><span>再看流匹配如何生成连续动作序列。</span></li>
+            <li><a href="#classic-worldvla">WorldVLA</a> / <a href="https://arxiv.org/abs/2602.15922" target="_blank" rel="noopener noreferrer">DreamZero</a><span>比较联合预测使用的未来表征、执行频率与真机泛化评测。</span></li>
+          </ol>
+          <a class="inline-link" href="#tracker" data-track-domain="robotics">查看机器人最新论文</a>
+        </article>
+        <article class="topic-card">
+          <h3>多无人车 · 从一致性到闭环编队</h3>
+          <ol class="reading-path">
+            <li><a href="#classic-consensus">一致性</a> / <a href="#classic-formation">编队拓扑</a><span>比较领航跟随、邻居通信和队形约束。</span></li>
+            <li><a href="#classic-string">串稳定性</a> / <a href="#classic-dmpc">分布式 MPC</a><span>区分纵向跟驰与平面队形，观察间距误差和扰动传播。</span></li>
+            <li><a href="#classic-platooning">时延下的车队控制</a> / <a href="#control-tools">闭环验证</a><span>对比通信延迟、丢包和队形切换条件下的最小车距及恢复时间。</span></li>
+          </ol>
+          <a class="inline-link" href="#tracker" data-track-method="MAS">查看协同控制最新论文</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="benchmarks" class="page-section" aria-labelledby="benchmarks-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="benchmarks-title">评测与数据</h2>
+          <p>对照论文结果时，先确认数据版本、评测协议和运行环境。</p>
+        </div>
+      </div>
+      <div class="anchor-links" aria-label="评测资源分类">
+        <a href="#v2x-data">车路与多车协同感知</a>
+        <a href="#formation-data">多车编队与交通轨迹</a>
+        <a href="#control-tools">协同控制与闭环仿真</a>
+        <a href="#driving-data">自动驾驶感知与规划</a>
+        <a href="#robot-data">机器人示范与操控</a>
+      </div>
+      <section id="v2x-data" class="resource-group" aria-labelledby="v2x-data-title">
+        <h3 class="group-heading" id="v2x-data-title">车路与多车协同感知</h3>
+        <p class="group-description">比较多视角融合、遮挡恢复、通信开销与时序关联。</p>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-type">实采数据集 · 感知基准</div>
+            <h4><a href="https://air.tsinghua.edu.cn/DAIR-V2X/english/index.html" target="_blank" rel="noopener noreferrer">DAIR-V2X</a></h4>
+            <p>真实车端与路端摄像头、LiDAR，用于协同 3D 检测与感知链路的通信开销对照。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采数据集 · 时序感知与预测</div>
+            <h4><a href="https://github.com/AIR-THU/DAIR-V2X-Seq" target="_blank" rel="noopener noreferrer">V2X-Seq</a></h4>
+            <p>车路时序场景与交叉口轨迹，适合目标跟踪和多参与者预测。闭环验证需另接控制器。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">合成数据集 · 车车协同</div>
+            <h4><a href="https://mobility-lab.seas.ucla.edu/opv2v/" target="_blank" rel="noopener noreferrer">OPV2V</a></h4>
+            <p>基于 OpenCDA 与 CARLA 生成带遮挡的多车视角，常用于比较车车 3D 感知融合。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">合成数据集 · 车路协同</div>
+            <h4><a href="https://ai4ce.github.io/V2X-Sim/index.html" target="_blank" rel="noopener noreferrer">V2X-Sim</a></h4>
+            <p>为多车和路侧生成协同感知数据，可比较融合、检测及语义分割。实车迁移需独立验证。</p>
+          </article>
+        </div>
+      </section>
+      <section id="formation-data" class="resource-group" aria-labelledby="formation-data-title">
+        <h3 class="group-heading" id="formation-data-title">多车编队与交通轨迹</h3>
+        <p class="group-description">用实采轨迹检验相对位置和间距统计，用合成编队数据复现特定扰动。</p>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-type">多无人车实采数据集</div>
+            <h4><a href="https://pengyu-team.github.io/S3E/" target="_blank" rel="noopener noreferrer">S3E</a></h4>
+            <p>提供三台 UGV 的室内外多传感器记录与位姿真值，可做协同定位和轨迹回放。闭环编队需另设任务与控制器。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">合成编队数据 · DaRUS</div>
+            <h4><a href="https://darus.uni-stuttgart.de/dataset.xhtml?persistentId=doi%3A10.18419%2FDARUS-6135" target="_blank" rel="noopener noreferrer">Graph-based Formation Control</a></h4>
+            <p>提供领航与跟随角色、相对位置、后续位移和异常运动标签，可分析队形异常。位移字段记录模拟运动。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">多机器人实采数据集</div>
+            <h4><a href="https://asrl.utias.utoronto.ca/datasets/mrclam/index.html" target="_blank" rel="noopener noreferrer">UTIAS MR.CLAM</a></h4>
+            <p>提供室内移动机器人的里程计、距离与方位观测及真值，适合相对定位和多车轨迹回放。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实车跟驰数据集 · 欧盟 JRC</div>
+            <h4><a href="https://data.europa.eu/data/datasets/9702c950-c80f-4d2f-982f-44d06ea0009f?locale=en" target="_blank" rel="noopener noreferrer">OpenACC</a></h4>
+            <p>来自实车 ACC 跟驰实验，可分析纵向间距、速度响应与扰动传播。横向队形需要单独采集。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采轨迹 · 高速公路</div>
+            <h4><a href="https://levelxdata.com/highd-dataset/" target="_blank" rel="noopener noreferrer">highD</a></h4>
+            <p>德国高速公路的无人机俯视轨迹，可作跟驰、换道与车距统计。执行器指令需额外采集。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采轨迹 · 密集交通</div>
+            <h4><a href="https://huggingface.co/datasets/INTERACTION-dataset/INTERACTION-dataset" target="_blank" rel="noopener noreferrer">INTERACTION</a></h4>
+            <p>包含路口、汇入、环岛等互动场景的轨迹与地图，适合行为建模和离线预测评测。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采轨迹 · 运动预测</div>
+            <h4><a href="https://argoverse.github.io/user-guide/datasets/motion_forecasting.html" target="_blank" rel="noopener noreferrer">Argoverse 2 Motion Forecasting</a></h4>
+            <p>提供多城市道路参与者轨迹和局部矢量地图，适合预测多车及行人互动。</p>
+          </article>
+        </div>
+      </section>
+      <section id="control-tools" class="resource-group" aria-labelledby="control-tools-title">
+        <h3 class="group-heading" id="control-tools-title">协同控制与闭环仿真</h3>
+        <p class="group-description">按底盘和观测需求选平台，设置通信条件、队形切换及碰撞判据。</p>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-type">联合仿真框架</div>
+            <h4><a href="https://github.com/ucla-mobility/OpenCDA" target="_blank" rel="noopener noreferrer">OpenCDA</a></h4>
+            <p>结合 CARLA 与 SUMO，支持原型验证公路车队、并入和协同感知。平面多 UGV 队形需扩展场景。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">交通仿真 · 编队插件</div>
+            <h4><a href="https://eclipse.dev/sumo/docs/Simpla.html" target="_blank" rel="noopener noreferrer">SUMO + Simpla</a></h4>
+            <p>模拟车队形成、脱离和纵向跟驰。高保真底盘与传感器动态需另建模。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">多机器人仿真 · 远程实机</div>
+            <h4><a href="https://www.robotarium.gatech.edu/" target="_blank" rel="noopener noreferrer">Robotarium</a></h4>
+            <p>用小型轮式机器人验证队形保持、切换和避碰。比较结果时核对定位与场地条件。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">多车动力学仿真器</div>
+            <h4><a href="https://github.com/MRPT/mvsim" target="_blank" rel="noopener noreferrer">MVSim</a></h4>
+            <p>支持多台差速或 Ackermann 底盘和传感器。可为多 UGV 编队设置通信、扰动和评分协议。</p>
+          </article>
+        </div>
+      </section>
+      <section id="driving-data" class="resource-group" aria-labelledby="driving-data-title">
+        <h3 class="group-heading" id="driving-data-title">自动驾驶感知与规划</h3>
+        <p class="group-description">核对任务对象、数据切分和评测版本后再比较分数。</p>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-type">非反应式仿真 · 规划基准</div>
+            <h4><a href="https://github.com/autonomousvision/navsim" target="_blank" rel="noopener noreferrer">NAVSIM</a></h4>
+            <p>基于驾驶日志和非反应式仿真评估碰撞、进度与舒适性等指标。报告注明 v1 PDMS 或 v2 EPDMS。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采数据集 · 多传感器</div>
+            <h4><a href="https://www.nuscenes.org/nuscenes" target="_blank" rel="noopener noreferrer">nuScenes</a></h4>
+            <p>包含波士顿与新加坡驾驶片段，适用于 3D 检测、跟踪和运动预测。核对城市和传感器配置。</p>
+          </article>
+        </div>
+      </section>
+      <section id="robot-data" class="resource-group" aria-labelledby="robot-data-title">
+        <h3 class="group-heading" id="robot-data-title">机器人示范与操控</h3>
+        <p class="group-description">区分真机示范、离线训练、仿真成功率与跨本体部署。</p>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-type">仿真基准 · 语言条件操控</div>
+            <h4><a href="https://github.com/Lifelong-Robot-Learning/LIBERO" target="_blank" rel="noopener noreferrer">LIBERO</a></h4>
+            <p>覆盖空间关系、物体、目标变化及长时程操作。比较成功率时核对任务套件和初始状态。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">跨本体实采示范</div>
+            <h4><a href="https://robotics-transformer-x.github.io/" target="_blank" rel="noopener noreferrer">Open X-Embodiment</a></h4>
+            <p>统一多种机器人平台的轨迹。对照训练数据时核对数据子集、动作表示与测试平台。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">实采数据集 · 遥操作示范</div>
+            <h4><a href="https://droid-dataset.github.io/" target="_blank" rel="noopener noreferrer">DROID</a></h4>
+            <p>提供真实场景中的图像、状态和动作，支持 VLA 预训练及模仿学习。采集平台限制动作和任务范围。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">示范数据 · 离线学习框架</div>
+            <h4><a href="https://robomimic.github.io/docs/introduction/overview.html" target="_blank" rel="noopener noreferrer">robomimic</a></h4>
+            <p>包含操控示范和离线学习基线，适合固定任务内对照。跨硬件效果需重新评估。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">仿真基准 · 长时程操控</div>
+            <h4><a href="https://github.com/mees/calvin" target="_blank" rel="noopener noreferrer">CALVIN</a></h4>
+            <p>用连续语言指令考察操作序列，报告连续任务完成数和未见场景表现。</p>
+          </article>
+          <article class="resource-card">
+            <div class="resource-type">仿真平台 · 操控基准</div>
+            <h4><a href="https://github.com/mani-skill/ManiSkill" target="_blank" rel="noopener noreferrer">ManiSkill</a></h4>
+            <p>提供 GPU 并行操控场景与示范，支持策略训练和回放。接触与视觉表现需真机验证。</p>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="wrap footer-inner">
+      <span>具身经纬 · Embodied Atlas</span>
+      <a href="#top">返回页首</a>
+    </div>
+  </footer>
+</body>
+</html>

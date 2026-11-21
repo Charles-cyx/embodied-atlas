@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从一致性、串稳定性、分布式模型预测控制与安全约束出发，阅读多无人车协同控制的代表论文与验证方法。">
+  <title>多无人车协同控制深度解析 · 具身经纬</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./dossiers.css">
+</head>
+<body class="dossier accent-mas" id="top">
+  <a class="skip" href="#main">跳到专题正文</a>
+  <header class="dossier-hero">
+    <div class="wrap">
+      <a class="dossier-back" href="./index.html#topics">返回专题</a>
+      <p class="dossier-kicker">地面车辆与多智能体系统</p>
+      <h1>多无人车协同控制深度解析</h1>
+      <p>从队形收敛、扰动传播到带约束的规划与避碰，串起地面移动机器人编队和自动驾驶车队的控制问题。</p>
+    </div>
+  </header>
+  <nav class="section-nav" aria-label="专题目录">
+    <div class="wrap nav-inner">
+      <a class="nav-home" href="./index.html#topics"><span aria-hidden="true"></span> 专题首页</a>
+      <div class="nav-links">
+        <a href="#consensus">一致性与拓扑</a>
+        <a href="#platooning">车队跟驰</a>
+        <a href="#dmpc">分布式 MPC</a>
+        <a href="#collision">协同避碰</a>
+        <a href="#compare">方法比较</a>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap" id="main" tabindex="-1">
+    <nav class="dossier-overview" aria-label="选择研究问题">
+      <a class="dossier-tile" href="#consensus">
+        <h2>一致性与拓扑</h2>
+        <p>邻车信息沿哪些路径传播，才能形成共同参考？</p>
+      </a>
+      <a class="dossier-tile" href="#platooning">
+        <h2>车队跟驰</h2>
+        <p>领车加减速产生的扰动会在队尾放大吗？</p>
+      </a>
+      <a class="dossier-tile" href="#dmpc">
+        <h2>分布式 MPC</h2>
+        <p>车辆如何结合预测、邻车计划与执行约束？</p>
+      </a>
+      <a class="dossier-tile" href="#collision">
+        <h2>协同避碰</h2>
+        <p>队形切换和动态障碍下如何保持安全距离？</p>
+      </a>
+    </nav>
+    <aside class="dossier-callout">
+      <h2>先写清楚协同目标</h2>
+      <p>纵向车队主要协调车速与间距，平面编队还要处理相对位置、航向和队形切换。设计时分别定义队形误差、扰动传播指标和安全约束，再说明各车辆能测到的状态与能收到的消息。</p>
+    </aside>
+
+    <section id="consensus" class="page-section dossier-section" aria-labelledby="consensus-title">
+      <div class="section-heading">
+        <h2 id="consensus-title">一致性与拓扑</h2>
+        <p>用有向图表达车辆之间的信息流。以编队为目标时，可以让扣除目标偏移的状态趋于一致。若车队有领车，还要说明哪些车辆直接获得领车参考，以及这份参考如何传到其余车辆。</p>
+      </div>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>通信图如何影响稳定性</h3>
+          <p>Fax 与 Murray 用通信图的拉普拉斯特征值分析编队闭环稳定性，将单车动力学和车队信息流放在同一个判据中。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/TAC.2004.834433">Fax &amp; Murray · IEEE TAC 2004</a></p>
+        </article>
+        <article class="detail-card">
+          <h3>拓扑切换与通信时延</h3>
+          <p>把前车跟随、前车加领车广播等通信方案画成图。遇到通信中断或拓扑切换时，检查参考信息能否在分析所需的时间范围内传遍车队。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/JPROC.2006.887293">Olfati-Saber 等 · Proceedings of the IEEE 2007</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="platooning" class="page-section dossier-section" aria-labelledby="platooning-title">
+      <div class="section-heading">
+        <h2 id="platooning-title">车队跟驰与串稳定性</h2>
+        <p>单车能把跟驰误差压回目标值，仍需检验扰动怎样沿车序传播。比较前先声明扰动输入、误差输出与度量，例如用各车纵向间距误差的峰值观察队尾是否放大。</p>
+      </div>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>从单车误差看到整条车队</h3>
+          <p>串稳定性关注互联系统规模增加时扰动是否保持一致有界。实测时可以逐车记录间距误差并绘制其峰值，同时保留时间序列以识别滞后和振荡。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/9.486636">Swaroop &amp; Hedrick · IEEE TAC 1996</a></p>
+        </article>
+        <article class="detail-card">
+          <h3>车间通信与跟驰设计</h3>
+          <p>协同自适应巡航可把前车通信信息用于前馈。Ploeg 等把控制设计与实车评估配套，di Bernardo 等则用分布式一致性协议分析车间通信存在时变异构时延时的稳定性。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/ITSC.2011.6082981">Ploeg 等 · IEEE ITSC 2011</a> · <a href="https://doi.org/10.1109/TITS.2014.2328439">di Bernardo 等 · IEEE T-ITS 2015</a></p>
+          <a class="badge award-chip" href="https://ieee-itss.org/pub/t-its/t-its-paper-award-history/">获奖 · 2017 George N. Saridis 最佳期刊论文（Outstanding Research）</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="dmpc" class="page-section dossier-section" aria-labelledby="dmpc-title">
+      <div class="section-heading">
+        <h2 id="dmpc-title">分布式模型预测控制</h2>
+        <p>车辆各自预测有限时域内的运动，在可获得的邻车计划下优化本车动作。关键的建模决策包括预测更新周期、可通信的计划变量，以及求解无法按时完成时的回退策略。</p>
+      </div>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>异构车辆如何共享计划</h3>
+          <p>Zheng 等为单向拓扑下的异构车队构造局部优化问题。各车保留自身动力学，利用邻车预测来协调位置与速度，并在论文假设下分析收敛与稳定性。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/TCST.2016.2594588">Zheng 等 · IEEE TCST 2017</a></p>
+        </article>
+        <article class="detail-card">
+          <h3>可执行性如何验证</h3>
+          <p>在同一工况记录求解时间、约束触碰和不可行次数。用消息过期、制动受限等场景测试回退控制，并区分预测约束与实际闭环中的安全约束。</p>
+        </article>
+      </div>
+      <ol class="method-flow" aria-label="分布式模型预测控制的一个更新周期">
+        <li><strong>观测与接收</strong><span>更新本车状态和邻车预测</span></li>
+        <li><strong>局部优化</strong><span>结合跟驰目标、模型和约束求解</span></li>
+        <li><strong>执行并广播</strong><span>施加首个控制输入，发送更新后的预测</span></li>
+      </ol>
+    </section>
+
+    <section id="collision" class="page-section dossier-section" aria-labelledby="collision-title">
+      <div class="section-heading">
+        <h2 id="collision-title">平面编队与协同避碰</h2>
+        <p>地面机器人在狭窄通道、会车或队形变换中可能同时遇到几何约束与运动约束。评估时并列记录任务完成和安全指标，再检查局部感知与控制是否造成死锁。</p>
+      </div>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>用安全屏障约束修正输入</h3>
+          <p>将机器人间安全距离转成控制约束，在满足模型假设和可行性条件时，修正名义编队或跟踪控制给出的输入。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/TRO.2017.2659727">Wang 等 · IEEE T-RO 2017</a></p>
+        </article>
+        <article class="detail-card">
+          <h3>从局部观测学习避碰策略</h3>
+          <p>Long 等在多个训练场景中学习基于局部传感的去中心化策略，并在实机评估。复验时可单独改变机器人密度、障碍物分布和感知范围。</p>
+          <p class="dossier-links"><a href="https://doi.org/10.1109/ICRA.2018.8461113">Long 等 · IEEE ICRA 2018</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="compare" class="page-section dossier-section" aria-labelledby="compare-title">
+      <div class="section-heading">
+        <h2 id="compare-title">方法比较与验证</h2>
+        <p>这些方法解决不同的闭环问题，也可组合使用。选择基线时应让对照组共享车辆模型、通信假设和评估工况。</p>
+      </div>
+      <div class="table-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
+        <table class="comparison-table">
+          <caption>控制方法、信息依赖与典型验证问题</caption>
+          <thead>
+            <tr><th scope="col">方法</th><th scope="col">典型输入</th><th scope="col">适用问题</th><th scope="col">验证重点</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">一致性控制</th><td>邻车状态和目标偏移</td><td>队形收敛、领车参考传播</td><td>拓扑切换后是否仍可收敛</td></tr>
+            <tr><th scope="row">协同自适应巡航</th><td>相对间距、相对速度，可加前车通信</td><td>纵向跟驰与扰动抑制</td><td>跟驰误差在队列中是否放大</td></tr>
+            <tr><th scope="row">分布式 MPC</th><td>本地动力学、约束与邻车预测</td><td>异构车辆的有限时域协调</td><td>求解超时、预测失配和约束可行性</td></tr>
+            <tr><th scope="row">安全屏障控制</th><td>相对状态与名义控制输入</td><td>在执行层约束机器人间距离</td><td>输入饱和时是否仍有可行控制</td></tr>
+            <tr><th scope="row">学习式避碰</th><td>机器人可获得的局部感知</td><td>动态交互中的反应式避碰</td><td>分布外障碍、密度和感知退化</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="dossier-callout" aria-labelledby="check-title">
+        <h3 id="check-title">验证清单</h3>
+        <ul>
+          <li>记录车数、动力学、采样周期、队形偏移、间距策略和通信图。</li>
+          <li>分别测试领车制动、通信时延与丢包、队形切换和交叉通行。</li>
+          <li>保存逐车误差、最小安全间距、响应时间与失效工况。</li>
+          <li>将同一工况移植到仿真和实车，并记录模型差异与重复试验条件。</li>
+        </ul>
+        <p class="dossier-links"><a href="./index.html#formation-data">多车与编队数据集</a> · <a href="./index.html#control-tools">协同控制工具</a></p>
+      </aside>
+    </section>
+  </main>
+  <footer class="page-footer">
+    <div class="wrap footer-inner">
+      <a href="./index.html#topics">具身经纬</a>
+      <a href="#top">回到顶部</a>
+    </div>
+  </footer>
+</body>
+</html>

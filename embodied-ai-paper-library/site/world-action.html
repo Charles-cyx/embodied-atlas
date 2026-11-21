@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="对照 RT-2、π₀、Unified World Models 和 Epona，理解动作表示、未来预测与闭环评测。">
+  <title>VLA 与世界动作模型深度解析 · 具身经纬</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./dossiers.css">
+</head>
+<body class="dossier" id="top">
+  <a class="skip" href="#main-content">跳到正文</a>
+  <header class="dossier-hero">
+    <div class="wrap">
+      <a class="dossier-back" href="./index.html#topics">返回专题</a>
+      <p class="dossier-kicker">机器人操控与自动驾驶</p>
+      <h1>VLA 与世界动作模型深度解析</h1>
+      <p>从动作 token 到连续动作块，再到联合预测未来观测。通过四篇论文对照模型输出、训练信号与评测协议。</p>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="专题导航">
+    <div class="wrap nav-inner">
+      <a class="nav-home" href="./index.html#topics"><span aria-hidden="true"></span> 专题首页</a>
+      <div class="nav-links">
+        <a href="#rt2">RT-2</a>
+        <a href="#pi0">π₀</a>
+        <a href="#uwm">UWM</a>
+        <a href="#epona">Epona</a>
+        <a href="#comparison">方法对照</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap" id="main-content" tabindex="-1">
+    <section class="dossier-overview" aria-label="代表论文导航">
+      <a class="dossier-tile accent-vla" href="#rt2">
+        <span class="badge badge-method badge-vla">VLA</span>
+        <strong>RT-2</strong>
+        <span>把机器人动作写成 token</span>
+      </a>
+      <a class="dossier-tile accent-vla" href="#pi0">
+        <span class="badge badge-method badge-vla">VLA</span>
+        <strong>π₀</strong>
+        <span>用流匹配生成连续动作块</span>
+      </a>
+      <a class="dossier-tile accent-wam" href="#uwm">
+        <span class="badge badge-method badge-wam">WAM</span>
+        <strong>Unified World Models</strong>
+        <span>联合扩散未来画面与动作</span>
+      </a>
+      <a class="dossier-tile accent-wm" href="#epona">
+        <span class="badge badge-method badge-wm">WM</span>
+        <strong>Epona</strong>
+        <span>连接驾驶视频预测与轨迹规划</span>
+      </a>
+    </section>
+
+    <aside class="dossier-callout" aria-labelledby="framework-title">
+      <h2 id="framework-title">先看模型在推理时输出什么</h2>
+      <p>VLA 描述模型从视觉和语言到动作的接口。世界动作模型进一步学习动作与未来观测之间的关系，可以和 VLA 共用视觉、语言条件。读一篇论文时，先找出训练阶段预测的量，再看下发动作前实际调用了哪些模块。</p>
+    </aside>
+
+    <section id="rt2" class="page-section dossier-section" aria-labelledby="rt2-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="rt2-title">RT-2 · 用同一套输出接口学习语义与动作</h2>
+          <p>CoRL 2023 · 机器人视觉语言动作模型</p>
+        </div>
+        <div class="dossier-links">
+          <a href="https://proceedings.mlr.press/v229/zitkovich23a.html">CoRL 论文</a>
+          <a href="https://arxiv.org/abs/2307.15818">arXiv</a>
+        </div>
+      </div>
+      <p>RT-2 将末端运动和夹爪等控制量量化为 token，并用一个预训练视觉语言模型同时学习网络视觉问答与机器人示范。执行任务时，模型根据相机画面和指令生成动作 token，系统解码后下发给机器人。</p>
+      <ol class="method-flow">
+        <li><strong>输入</strong><span>相机画面、语言指令</span></li>
+        <li><strong>生成</strong><span>自回归预测离散动作 token</span></li>
+        <li><strong>执行</strong><span>解码控制量，获取下一次观测</span></li>
+      </ol>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>联合微调保留语义监督</h3>
+          <p>机器人示范提供动作监督，网络图文任务继续监督视觉概念与语言理解。两类数据共享下一 token 预测目标。</p>
+        </article>
+        <article class="detail-card">
+          <h3>区分语义泛化与新技能</h3>
+          <p>论文测试了未见物体、背景和环境。阅读结果时，可单独记录“对新物体执行已学动作”和“完成新的物理操作”两类问题。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="pi0" class="page-section dossier-section" aria-labelledby="pi0-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="pi0-title">π₀ · 用流匹配生成连续动作块</h2>
+          <p>RSS 2025 · 机器人视觉语言动作模型</p>
+        </div>
+        <div class="dossier-links">
+          <a href="https://roboticsproceedings.org/rss21/p010.html">RSS 论文</a>
+          <a href="https://arxiv.org/abs/2410.24164">arXiv</a>
+        </div>
+      </div>
+      <p>π₀ 将图像、语言指令和机器人本体状态作为条件。动作模块通过流匹配学习如何将噪声变成一段连续控制序列，联合建模短时间内的多步动作。</p>
+      <ol class="method-flow">
+        <li><strong>编码</strong><span>图像、指令与本体状态</span></li>
+        <li><strong>采样</strong><span>从噪声生成连续动作块</span></li>
+        <li><strong>反馈</strong><span>执行后用新观测再次推理</span></li>
+      </ol>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>动作块如何进入控制回路</h3>
+          <p>动作块为多步执行提供连续计划。比较两种部署方式时，可记录每次实际执行多少步、多久重算一次，以及受扰后多久完成修正。</p>
+        </article>
+        <article class="detail-card">
+          <h3>微调条件决定结论范围</h3>
+          <p>论文分别评估直接提示、语言引导和任务微调。比较叠衣、清理桌面等结果时，应写清使用的机器人、数据和任务适配条件。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="uwm" class="page-section dossier-section" aria-labelledby="uwm-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="uwm-title">Unified World Models · 用一个模型描述动作与结果</h2>
+          <p>RSS 2025 · 机器人世界动作建模</p>
+        </div>
+        <div class="dossier-links">
+          <a href="https://roboticsproceedings.org/rss21/p015.html">RSS 论文</a>
+          <a href="https://arxiv.org/abs/2504.02792">arXiv</a>
+        </div>
+      </div>
+      <p>UWM 在同一个 Transformer 中对视频和动作分别扩散。两类扩散时间步独立，从而允许给定其中一种模态，再采样另一种模态。缺少动作标注的视频也可通过预测未来观测参与预训练。</p>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>给定动作，预测结果</h3>
+          <p>以当前观测和已知动作为条件，生成动作之后的图像。这是对动作条件下环境变化的建模。</p>
+        </article>
+        <article class="detail-card">
+          <h3>给定结果，推断动作</h3>
+          <p>以当前和目标观测为条件，生成可能到达目标的动作。这对应逆动力学；同一个目标可能有多条可行路径。</p>
+        </article>
+        <article class="detail-card">
+          <h3>从当前观测直接采样</h3>
+          <p>模型也可以从当前观测生成动作，或预测后续画面。评估策略时，查看论文使用的采样模式、演示数据和真机成功判据。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="epona" class="page-section dossier-section" aria-labelledby="epona-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="epona-title">Epona · 让驾驶画面与规划共享历史表征</h2>
+          <p>ICCV 2025 · 自动驾驶世界模型</p>
+        </div>
+        <div class="dossier-links">
+          <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_Epona_Autoregressive_Diffusion_World_Model_for_Autonomous_Driving_ICCV_2025_paper.html">ICCV 论文</a>
+          <a href="https://arxiv.org/abs/2506.24113">arXiv</a>
+        </div>
+      </div>
+      <p>Epona 将历史相机画面与自车轨迹编码到共同的潜空间。轨迹模块从历史表征预测自车未来轨迹，画面模块则结合历史与给定的车辆运动预测下一帧。把生成帧继续纳入历史，可逐帧展开后续场景。</p>
+      <ol class="method-flow">
+        <li><strong>历史</strong><span>编码画面和自车运动</span></li>
+        <li><strong>规划</strong><span>从共享表征生成自车轨迹</span></li>
+        <li><strong>预测</strong><span>按指定或预测运动生成下一帧</span></li>
+      </ol>
+      <div class="detail-grid">
+        <article class="detail-card">
+          <h3>按任务调用模块</h3>
+          <p>做轨迹规划时可以只使用历史编码和轨迹模块。做可控视频预测时，画面模块可以使用模型给出的运动，也可以使用外部指定的运动。</p>
+        </article>
+        <article class="detail-card">
+          <h3>分别检查画面与规划</h3>
+          <p>论文在 nuScenes 与 NAVSIM 中评估规划，也评估生成视频。部署时还需验证下游轨迹跟踪和其他交通参与者对自车行为的响应。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="comparison" class="page-section dossier-section" aria-labelledby="comparison-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="comparison-title">方法对照</h2>
+          <p>对照模型接口和各论文的验证条件。</p>
+        </div>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的模型对照表">
+        <table class="comparison-table">
+          <thead>
+            <tr><th scope="col">方法</th><th scope="col">主要条件</th><th scope="col">推理输出</th><th scope="col">评测关注点</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><a href="#rt2">RT-2</a></th><td>图像、指令</td><td>离散动作 token</td><td>未见物体及环境中的语义迁移</td></tr>
+            <tr><th scope="row"><a href="#pi0">π₀</a></th><td>图像、指令、本体状态</td><td>连续动作块</td><td>长程任务、提示方式和适配条件</td></tr>
+            <tr><th scope="row"><a href="#uwm">UWM</a></th><td>当前观测，可选动作或未来观测</td><td>动作、未来图像或两者</td><td>视频预训练、动作条件预测和真机操作</td></tr>
+            <tr><th scope="row"><a href="#epona">Epona</a></th><td>驾驶画面与自车运动历史</td><td>规划轨迹或动作条件下一帧</td><td>生成质量、轨迹误差、碰撞和道路约束</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="dossier-callout">
+        <h3>继续阅读与复现</h3>
+        <p>准备操作实验时，可从机器人数据中核对动作空间和任务划分。准备驾驶实验时，可对照规划基准中的预测时长、道路约束和指标定义。</p>
+        <div class="dossier-links">
+          <a href="./index.html#reading-routes">专题阅读路线</a>
+          <a href="./index.html#robot-data">机器人示范与操控</a>
+          <a href="./index.html#driving-data">自动驾驶感知与规划</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="wrap footer-inner">
+      <a href="./index.html#topics">具身经纬</a>
+      <a href="#top">返回页首</a>
+    </div>
+  </footer>
+</body>
+</html>
